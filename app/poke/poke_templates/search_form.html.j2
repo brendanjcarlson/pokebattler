@@ -1,0 +1,9 @@
+<form class="form form-horizontal" method="POST" action="{{ url_for('poke.poke_search') }}">
+    {{ form.hidden_tag() }}
+    <div class="form-inputs">
+        {{ form.pokemon(class='form-row') }}
+    </div>
+    <div class="form-btns">
+        {{ form.submit(class='btn btn-yellow') }}
+    </div>
+</form>

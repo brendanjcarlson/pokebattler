@@ -1,0 +1,56 @@
+{% extends 'layout.html.j2' %}
+
+{% block content %}
+
+{% include 'search_form.html.j2' %}
+
+{% if poke and poke.name %}
+<div class="flex-center poke-results">
+    <div class="poke-card" data-background="{{ poke.poke_type }}">
+        <div class="poke-header">
+            <h2>{{ poke.name.title() }}</h2>
+            {% if not caught %}
+            <a class='btn-small btn-red' href="{{ url_for('poke.poke_catch', poke_id=poke.id) }}">Catch</a>
+            {% elif caught_user.id == current_user.id %}
+            <a class='btn-small btn-red' href="{{ url_for('poke.poke_release', poke_id=poke.id) }}">Release</a>
+            {% else %}
+            <p>Caught by {{ caught_user.username }}</p>
+            {% endif %}
+
+        </div>
+        <img src="{{ poke.sprite_url }}" alt="{{ poke.name }}">
+        <div class="poke-section">
+            <h3>Types</h3>
+            <div class="poke-types">
+                {% for type in poke.types.split() %}
+                <p>{{ type.title() }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="poke-section">
+            <h3>Abilities</h3>
+            <div class="poke-abilities">
+                {% for ability in poke.abilities.split() %}
+                <p>{{ ability.title() }}</p>
+                {% endfor %}
+            </div>
+        </div>
+        <div class="poke-section">
+            <h3>Stats</h3>
+            <div class="poke-stats">
+                <p>HP: {{ poke.base_hp }}</p>
+                <p>ATK: {{ poke.base_atk }}</p>
+                <p>SPD: {{ poke.base_spd }}</p>
+                <p>DEF: {{ poke.base_def }}</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endif %}
+{% if title=='Pokemon not found' %}
+<div class="flex-center poke-results">
+    <img src="{{ url_for('static', filename='no-results.gif') }}" alt="No results">
+</div>
+{% endif %}
+
+{% endblock %}
