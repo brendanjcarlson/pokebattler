@@ -20,9 +20,9 @@ def register_page():
             check_username = User.query.filter_by(username=username).first()
             check_email = User.query.filter_by(email=email).first()
             if check_username:
-                flash('username already in use')
+                pass
             elif check_email:
-                print('email already in use')
+                pass
             else:
                 user = User(username, email, password)
                 user.CREATE()
@@ -43,12 +43,13 @@ def login_page():
             if user:
                 if check_password_hash(user.password, password):
                     login_user(user)
-                    return redirect(url_for('home.home_page'))
+                    if 'next' in request.args:
+                        return redirect(request.args['next'])
+                    else:
+                        return redirect(url_for('home.home_page'))
                 else:
-                    print('invalid password')
                     return render_template('login.html.2')
             else:
-                print('username does not exist')
                 return render_template('login.html.j2')
 
     return render_template('login.html.j2', form=form, user=current_user)

@@ -21,7 +21,7 @@ login.init_app(app)
 def load_user(user_id):
     return User.query.get(user_id)
 
-login.login_view = 'auth.loginPage'
+login.login_view = 'auth.login_page'
 
 app.register_blueprint(home, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/auth')

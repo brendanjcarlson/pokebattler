@@ -1,5 +1,5 @@
 from flask import Blueprint, render_template, url_for, request, redirect
-from flask_login import current_user
+from flask_login import current_user, login_required
 from .forms import PokemonForm
 from ..helpers import get_pokemon_from_API
 from ..models import Pokemon, Caught, User
@@ -9,6 +9,7 @@ poke = Blueprint('poke', __name__, template_folder='poke_templates')
 
 @poke.get('/search')
 @poke.post('/search')
+@login_required
 def poke_search():
     form = PokemonForm()
     title = 'Search'
@@ -71,6 +72,7 @@ def poke_release(poke_id):
 
 
 @poke.get('/team/<string:username>')
+@login_required
 def poke_team(username):
     form = PokemonForm()
     title = 'Team'
