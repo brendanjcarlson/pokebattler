@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ title }}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/c8702b7e57.js" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="{{ url_for('static', filename='reset.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <header>
+        <nav class="nav container">
+            <div>
+                <a class='nav-link-animated' href="{{ url_for('home.home_page') }}">
+                    <img src="{{ url_for('static', filename='pokeball.png') }}" alt="">
+                    <h1>{{ title }}</h1>
+                </a>
+                {% if user.is_authenticated %}
+                <a href="{{ url_for('poke.poke_team', username=user.username) }}"> {{ user.username }}</a>
+                <a href="{{ url_for('poke.poke_search') }}">Find pokemans!</a>
+                {% endif %}
+            </div>
+            <div>
+                {% if not user.is_authenticated %}
+                <a class='btn btn-yellow' href="{{ url_for('auth.register_page') }}">Register</a>
+                <a class='btn btn-blue' href="{{ url_for('auth.login_page') }}">Login</a>
+                {% else %}
+                <a class='btn btn-blue' href="{{ url_for('auth.logout') }}">Logout</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>

@@ -36,10 +36,9 @@ def poke_search():
                 poke = get_pokemon_from_API(query)
                 print('\n\n🚨🚨API CALLED🚨🚨\n\n')
                 if poke:
-                    Pokemon = Pokemon()
                     new_poke = Pokemon(*poke.values())
                     new_poke.CREATE()
-                    print('\n\n✅✅SAVED TO DB✅✅\n\n')
+                    print('✅✅SAVED TO DB✅✅\n\n')
 
             if poke:
                 title = 'Results for {}'.format(poke['name'].title())
