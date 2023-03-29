@@ -80,6 +80,7 @@ header {
     display: flex;
     align-items: center;
     gap: 0.75rem;
+    margin-right: 1rem;
 }
 .nav-link-animated:is(:hover, :focus) img {
     animation: wobble 1500ms ease-in-out infinite;
@@ -210,48 +211,61 @@ FORMS
 .form {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 1.25rem;
     background-color: var(--clr-bg-dark);
-    width: min(24rem, 90%);
-    margin: 0 auto;
     border-radius: var(--border-radius);
+    width: 24rem;
     padding: 1rem;
+    margin: 0 auto;
     box-shadow: var(--box-shadow);
 }
 
-.form-horizontal {
-    flex-direction: row;
-}
-
-.form-inputs {
-    width: 100%;
-}
-
-.form-row {
-    padding: 0.375rem 0.75rem;
-    width: 100%;
-}
-.form-row:not(:last-child) {
-    margin-bottom: 0.375rem;
-}
-
-.form-btns {
-    margin-bottom: 0.2rem;
-}
-
 .form p {
-    font-size: 0.875rem;
+    margin: 0 auto;
 }
 
 .form p a {
-    font-weight: 700;
     margin-left: 1ch;
-    padding-bottom: 1px;
+    font-weight: 500;
 }
-.form p a:is(:hover, :focus) {
-    border-bottom: 2px solid var(--clr-text-dark);
+
+.form p a:hover {
+    text-decoration: underline;
+}
+
+.form-title {
+    margin: 0 auto 1rem;
+}
+
+.form-inputs {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+}
+
+.form-input {
+    margin-bottom: 1rem;
+    padding: 0.5rem 1rem;
+}
+
+.form-btns {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.5rem;
+}
+
+.header-form {
+    display: flex;
+    align-items: center;
+}
+
+.header-form .form-btns {
+    margin-bottom: 0;
+    margin-left: 1rem;
+}
+
+.header-form .form-input {
+    margin-bottom: 0;
 }
 
 /*

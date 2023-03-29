@@ -2,20 +2,20 @@
 
 
 {% block content %}
-<h2>Register</h2>
 
 <form class='form' method="POST">
+    <h2 class="form-title">Register</h2>
     {{ form.hidden_tag() }}
     <div class="form-inputs">
-        {{ form.username(class='form-row') }}
-        {{ form.email(class='form-row') }}
-        {{ form.password(class='form-row') }}
-        {{ form.confirm_password(class='form-row') }}
+        {{ form.username(class='form-input') }}
+        {{ form.email(class='form-input') }}
+        {{ form.password(class='form-input') }}
+        {{ form.confirm_password(class='form-input') }}
     </div>
     <div class="form-btns">
         {{ form.submit(class='btn btn-yellow') }}
     </div>
-    <p>Already have an account?<a href="{{ url_for('auth.login_page') }}">Login</a></p>
+    <p>Already have an account?<a href="{{ url_for('auth.login') }}">Login</a></p>
 </form>
 
 {% endblock %}

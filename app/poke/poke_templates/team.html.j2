@@ -19,7 +19,7 @@
     <div class="poke-card" data-background="{{ poke.poke_type }}">
         <div class="poke-header">
             <h2>{{ poke.name.title() }}</h2>
-            <a class='btn-small btn-red' href="{{ url_for('poke.poke_release', poke_id=poke.id) }}">Release</a>
+            <a class='btn-small btn-red' href="{{ url_for('poke.release', poke_id=poke.id) }}">Release</a>
         </div>
         <img src="{{ poke.sprite_url }}" alt="{{ poke.name }}">
         <div class="poke-section">

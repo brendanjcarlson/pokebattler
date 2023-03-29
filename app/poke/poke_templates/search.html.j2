@@ -10,9 +10,9 @@
         <div class="poke-header">
             <h2>{{ poke.name.title() }}</h2>
             {% if not caught %}
-            <a class='btn-small btn-red' href="{{ url_for('poke.poke_catch', poke_id=poke.id) }}">Catch</a>
+            <a class='btn-small btn-red' href="{{ url_for('poke.catch', poke_id=poke.id) }}">Catch</a>
             {% elif caught_user.id == current_user.id %}
-            <a class='btn-small btn-red' href="{{ url_for('poke.poke_release', poke_id=poke.id) }}">Release</a>
+            <a class='btn-small btn-red' href="{{ url_for('poke.release', poke_id=poke.id) }}">Release</a>
             {% else %}
             <p>Caught by {{ caught_user.username }}</p>
             {% endif %}

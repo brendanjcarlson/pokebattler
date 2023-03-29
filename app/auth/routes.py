@@ -9,8 +9,14 @@ auth = Blueprint('auth', __name__, template_folder='auth_templates')
 
 @auth.get('/register')
 @auth.post('/register')
-def register_page():
+def register():
     form = RegisterForm()
+    kwargs = {
+        'title': 'PokeBattle | Register',
+        'form': form,
+        'user': current_user
+        }
+
     if request.method == 'POST':
         if form.validate():
             username = form.username.data
@@ -26,14 +32,20 @@ def register_page():
             else:
                 user = User(username, email, password)
                 user.CREATE()
-                return redirect(url_for('auth.login_page'))
-    return render_template('register.html.j2', form=form, user=current_user)
+                return redirect(url_for('auth.login'))
+    return render_template('register.html.j2',  **kwargs)
 
 
 @auth.get('/login')
 @auth.post('/login')
-def login_page():
+def login():
     form = LoginForm()
+    kwargs = {
+        'title': 'PokeBattle | Login',
+        'form': form,
+        'user': current_user
+    }
+
     if request.method == 'POST':
         if form.validate():
             username = form.username.data
@@ -46,15 +58,15 @@ def login_page():
                     if 'next' in request.args:
                         return redirect(request.args['next'])
                     else:
-                        return redirect(url_for('home.home_page'))
+                        return redirect(url_for('home.landing'))
                 else:
                     return render_template('login.html.2')
             else:
                 return render_template('login.html.j2')
 
-    return render_template('login.html.j2', form=form, user=current_user)
+    return render_template('login.html.j2', **kwargs)
 
 @auth.get('/logout')
 def logout():
     logout_user()
-    return redirect(url_for('home.home_page'))
+    return redirect(url_for('home.landing'))

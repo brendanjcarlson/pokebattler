@@ -2,18 +2,18 @@
 
 
 {% block content %}
-<h2>Login</h2>
 
 <form class='form' method="POST">
+    <h2 class="form-title">Login</h2>
     {{ form.hidden_tag() }}
     <div class="form-inputs">
-        {{ form.username(class='form-row') }}
-        {{ form.password(class='form-row') }}
+        {{ form.username(class='form-input') }}
+        {{ form.password(class='form-input') }}
     </div>
     <div class="form-btns">
         {{ form.submit(class='btn btn-blue', value='Login') }}
     </div>
-    <p>New to Pokemans App?<a href="{{ url_for('auth.register_page') }}">Register</a></p>
+    <p>New to Pokemans App?<a href="{{ url_for('auth.register') }}">Register</a></p>
 </form>
 
 {% endblock %}
