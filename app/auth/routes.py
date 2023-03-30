@@ -2,7 +2,7 @@ from flask import Blueprint, render_template, redirect, url_for, request, flash
 from flask_login import logout_user, login_user, current_user
 from werkzeug.security import check_password_hash
 
-from .forms import RegisterForm, LoginForm
+from ..forms import RegisterForm, LoginForm
 from ..models import User
 
 auth = Blueprint('auth', __name__, template_folder='auth_templates')
@@ -14,7 +14,7 @@ def register():
     kwargs = {
         'title': 'PokeBattle | Register',
         'form': form,
-        'user': current_user
+        'current_user': current_user
         }
 
     if request.method == 'POST':
@@ -43,7 +43,7 @@ def login():
     kwargs = {
         'title': 'PokeBattle | Login',
         'form': form,
-        'user': current_user
+        'current_user': current_user
     }
 
     if request.method == 'POST':

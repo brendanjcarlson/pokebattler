@@ -1,31 +1,52 @@
 from flask import Blueprint, render_template, url_for, request, redirect
 from flask_login import current_user, login_required
 from ..helpers import get_pokemon_from_API
-from ..models import Pokemon, Caught, User
-from ..forms import PokemonForm
+from ..models import Pokemon, User
+from ..forms import PokemonForm, UserForm
 
 user = Blueprint('user', __name__, template_folder='user_templates')
 
-@user.get('/team/<string:username>')
+@user.get('/<string:username>/team')
 @login_required
 def team(username):
-    form = PokemonForm()
-    team = []
+    pokeform = PokemonForm()
+    userform = UserForm()
     kwargs = {
         'title': f'PokeBattle | {current_user.username}\'s Team',
-        'user': current_user,
-        'form': form,
-        'pokemans': team
+        'current_user': current_user,
+        'display_user': current_user,
+        'pokeform': pokeform,
+        'userform': userform,
+        'pokemans': []
     }
-    caught = Caught.query.filter_by(user_id=current_user.id).all()
-    for poke in caught:
-        poke = Pokemon.query.filter_by(poke_id=poke.poke_id).first()
-        team.append(poke)
+
+    if username != current_user.username:
+        user = User.query.filter_by(username=username).first()
+        if user:
+            kwargs['display_user'] = user
+            kwargs['title'] = f'PokeBattle | {user.username}\'s Team'
+    for poke in kwargs['display_user'].caught.all():
+        kwargs['pokemans'].append(poke.TO_DICT())
     return render_template('team.html.j2', **kwargs)
 
 
-@user.get('/find_opponent')
-@user.post('/find_opponenet')
+@user.get('/search')
+@user.post('/search')
 @login_required
-def find_opponenet():
-    return '/user/find_opponent'
+def search():
+    pokeform = PokemonForm()
+    userform = UserForm()
+    kwargs = {
+        'title': f'PokeBattle | Search',
+        'current_user': current_user,
+        'pokeform': pokeform,
+        'userform': userform,
+    }
+
+    if request.method == 'POST':
+        if userform.validate():
+            found_user = User.query.filter_by(username=userform.user.data).first()
+            if found_user:
+                return redirect(url_for('user.team', username=found_user.username))
+
+    return render_template('search.html.j2', **kwargs)

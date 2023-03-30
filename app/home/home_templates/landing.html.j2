@@ -1,5 +1,5 @@
 {% extends 'layout.html.j2' %}
 
 {% block content %}
-<h1>hello there</h1>
+<h1>hello there{% if current_user.is_authenticated %}, {{ current_user.username}}! {% endif %}</h1>
 {% endblock %}

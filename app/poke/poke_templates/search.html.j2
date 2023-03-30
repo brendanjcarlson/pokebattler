@@ -2,19 +2,17 @@
 
 {% block content %}
 
-{% include 'search_form.html.j2' %}
-
 {% if poke and poke.name %}
 <div class="flex-center poke-results">
     <div class="poke-card" data-background="{{ poke.poke_type }}">
         <div class="poke-header">
             <h2>{{ poke.name.title() }}</h2>
-            {% if not caught %}
+            {% if not poke.is_caught %}
             <a class='btn-small btn-red' href="{{ url_for('poke.catch', poke_id=poke.id) }}">Catch</a>
-            {% elif caught_user.id == current_user.id %}
+            {% elif poke.is_caught and poke.caught_by == current_user.username %}
             <a class='btn-small btn-red' href="{{ url_for('poke.release', poke_id=poke.id) }}">Release</a>
             {% else %}
-            <p>Caught by {{ caught_user.username }}</p>
+            <p>Caught by {{ poke.caught_by }}</p>
             {% endif %}
 
         </div>

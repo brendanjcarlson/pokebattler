@@ -5,6 +5,11 @@ from werkzeug.security import generate_password_hash
 
 db = SQLAlchemy()
 
+catch = db.Table(
+    'catch',
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), nullable=False),
+    db.Column('pokemon_id', db.Integer, db.ForeignKey('pokemon.poke_id'), nullable=False))
+
 class User(db.Model, UserMixin):
     __tablename__ = 'user'
 
@@ -12,8 +17,9 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(50), nullable=False, unique=True)
     email = db.Column(db.String, nullable=False, unique=True)
     password = db.Column(db.String, nullable=False)
-    wins = db.Column(db.Integer, nullable=True)
-    losses = db.Column(db.Integer, nullable=True)
+    wins = db.Column(db.Integer, nullable=True, default=0)
+    losses = db.Column(db.Integer, nullable=True, default=0)
+    caught = db.relationship('Pokemon', secondary='catch', backref=db.backref('caught', lazy='dynamic'), lazy='dynamic')
 
 
     def __init__(self, username, email, password):
@@ -24,6 +30,26 @@ class User(db.Model, UserMixin):
     def CREATE(self):
         db.session.add(self)
         db.session.commit()
+
+    def CATCH(self, poke):
+        self.caught.append(poke)
+        db.session.commit()
+
+    def RELEASE(self, poke):
+        self.caught.remove(poke)
+        db.session.commit()
+
+    def ADD_LOSS(self):
+        self.losses += 1
+        db.session.commit()
+
+    def ADD_WIN(self):
+        self.wins += 1
+        db.session.commit()
+
+    @property
+    def record(self):
+        return f"{self.wins} {'win' if self.wins == 1 else 'wins'} - {self.losses} {'loss' if self.losses == 1 else 'losses'}"
 
 
 
@@ -43,6 +69,9 @@ class Pokemon(db.Model):
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
     sprite_url = db.Column(db.String)
+    is_caught = db.Column(db.Boolean, default=False)
+    caught_by = db.Column(db.String, db.ForeignKey('user.username'))
+
 
     def __init__(self, poke_id, name, types, abilities, base_hp, base_atk, base_def, base_spd, base_exp, height, weight, sprite_url):
         self.poke_id = poke_id
@@ -71,7 +100,9 @@ class Pokemon(db.Model):
             'base_exp': self.base_exp,
             'height': self.height,
             'weight': self.weight,
-            'sprite_url': self.sprite_url
+            'sprite_url': self.sprite_url,
+            'is_caught': self.is_caught,
+            'caught_by': self.caught_by
         }
 
     def CREATE(self):
@@ -79,21 +110,4 @@ class Pokemon(db.Model):
         db.session.commit()
 
     def UPDATE(self):
-        db.session.commit()
-
-class Caught(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    poke_id = db.Column(db.Integer, db.ForeignKey('pokemon.poke_id'), nullable=False)
-
-    def __init__(self, user_id, poke_id):
-        self.user_id = user_id
-        self.poke_id = poke_id
-
-    def CREATE(self):
-        db.session.add(self)
-        db.session.commit()
-
-    def DELETE(self):
-        db.session.delete(self)
         db.session.commit()

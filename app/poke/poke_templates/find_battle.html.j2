@@ -1,0 +1,26 @@
+{% extends 'layout.html.j2' %}
+
+{% block content %}
+{% if battle_users %}
+<div class="battle-users">
+    {% for battle_user in battle_users %}
+    <div class="battle-user">
+        <p>{{ battle_user.username }} </p>
+        <p>{{ battle_user.record }}</p>
+        <a class='btn btn-red' href="{{ url_for('user.team', username=battle_user.username) }}">View team</a>
+    </div>
+    {% endfor %}
+</div>
+{% endif %}
+
+<form class="form" method="POST" action="{{ url_for('user.search') }}">
+    <h2 class="form-title">Or challenge a user by name!</h2>
+    {{ userform.hidden_tag() }}
+    <div class="form-inputs">
+        {{ userform.user(class='form-input') }}
+    </div>
+    <div class="form-btns">
+        {{ userform.submit(class='btn btn-yellow') }}
+    </div>
+</form>
+{% endblock %}

@@ -8,7 +8,7 @@ from .home.routes import home
 from .auth.routes import auth
 from .poke.routes import poke
 from .user.routes import user
-
+from .api.routes import api
 app = Flask(__name__)
 app.config.from_object(Config)
 
@@ -20,6 +20,7 @@ app.register_blueprint(home, url_prefix='/')
 app.register_blueprint(auth, url_prefix='/auth')
 app.register_blueprint(poke, url_prefix='/poke')
 app.register_blueprint(user, url_prefix='/user')
+app.register_blueprint(api, url_prefix='/api')
 
 login = LoginManager()
 login.init_app(app)

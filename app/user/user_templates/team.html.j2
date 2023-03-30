@@ -1,25 +1,34 @@
 {% extends 'layout.html.j2' %}
 
 {% block content %}
-{% if user %}
-<h2 class="team-heading">{{user.username}}&apos;s team</h2>
-{% endif %}
-
-{% if not pokemans or pokemans|length < 5 %}
-<div class="team-no-pokemans">
-    {% if not pokemans %}
-    <h2 class="team-heading">You have no pokemans!</h2>
-    {% endif %}
-    {% include 'search_form.html.j2' %}
+{% if display_user.username != current_user.username %}
+{% if pokemans %}
+<div class="team-heading-container">
+    <h2 class="team-heading">{{display_user.username}}&apos;s team &nbsp;|&nbsp; {{ display_user.record }}</h2>
+    <a class="btn btn-red" href="{{ url_for('poke.battle', username=display_user.username) }}">BATTLE!</a>
 </div>
+{% else %}
+<h2 class="team-heading">{{display_user.username}} hasn&apos;t caught any pokemans yet!</h2>
+{% endif %}
+{% else %}
+{% if pokemans %}
+<div class="team-heading-container">
+    <h2 class="team-heading">My team &nbsp;|&nbsp; {{ current_user.record }}</h2>
+</div>
+{% else %}
+<h2 class="team-heading">You haven&apos;t caught any pokemans yet!</h2>
+{% endif %}
 {% endif %}
 
+{% if pokemans %}
 <div class="team-pokemans">
     {% for poke in pokemans %}
     <div class="poke-card" data-background="{{ poke.poke_type }}">
         <div class="poke-header">
             <h2>{{ poke.name.title() }}</h2>
+            {% if current_user.username == display_user.username %}
             <a class='btn-small btn-red' href="{{ url_for('poke.release', poke_id=poke.id) }}">Release</a>
+            {% endif %}
         </div>
         <img src="{{ poke.sprite_url }}" alt="{{ poke.name }}">
         <div class="poke-section">
@@ -50,4 +59,5 @@
     </div>
     {% endfor %}
 </div>
+{% endif %}
 {% endblock %}
