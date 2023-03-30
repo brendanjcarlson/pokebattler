@@ -84,7 +84,7 @@ class BattleGame:
                         self.log.append(f'{self.A.user.username} wins!')
                         self.A.user.ADD_WIN()
                         self.B.user.ADD_LOSS()
-                        return (self.A.user.username, self.log)
+                        return (self.A.user.username, self.B.user.username, self.log)
 
             else:
                 fight = self.B.team[0].attack(self.A.team[0])
@@ -104,6 +104,6 @@ class BattleGame:
                         self.log.append(f'{self.B.user.username} wins!')
                         self.B.user.ADD_WIN()
                         self.A.user.ADD_LOSS()
-                        return (self.B.user.username, self.log)
+                        return (self.B.user.username, self.A.user.username, self.log)
 
             self.next_player()

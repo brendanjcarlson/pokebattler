@@ -1,0 +1,12 @@
+{% extends 'layout.html.j2' %}
+
+{% block content %}
+
+<h2>WINNER: {{ winner }}</h2>
+<h2>LOSER: {{ loser }}</h2>
+
+{% for line in log %}
+<p>{{ line }}</p>
+{% endfor %}
+
+{% endblock %}

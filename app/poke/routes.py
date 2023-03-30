@@ -108,10 +108,17 @@ def find_battle():
 @poke.get('/battle/<string:username>')
 @login_required
 def battle(username):
+    userform = UserForm()
+    pokeform = PokemonForm()
+    kwargs = {
+        'title': 'PokeBattle | Battle Results',
+        'userform': userform,
+        'pokeform': pokeform,
+        'winner': None,
+        'loser': None,
+        'log': None
+    }
     opponent = User.query.filter_by(username=username).first()
     battle_game = BattleGame(current_user, opponent)
-    winner, log = battle_game.battle()
-    return {
-        'winner': winner,
-        'log': log,
-    }
+    kwargs['winner'], kwargs['loser'], kwargs['log'] = battle_game.battle()
+    return render_template('battle_results.html.j2', **kwargs)
