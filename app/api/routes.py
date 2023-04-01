@@ -17,15 +17,12 @@ def team(username):
 
 @api.get('poke/<poke_query>')
 def poke_name(poke_query):
-    from_db = False
     try:
         poke_query = int(poke_query)
         poke = Pokemon.query.filter_by(poke_id=poke_query).first()
-        from_db = True
     except:
         poke_query = poke_query.lower()
         poke = Pokemon.query.filter_by(name=poke_query).first()
-        from_db = True
 
     if poke:
         print('\n\n✅✅ FROM DB ✅✅\n\n')
