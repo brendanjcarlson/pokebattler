@@ -48,6 +48,7 @@ def search():
                 kwargs['poke'] = poke
             else:
                 kwargs['title'] = 'Pokemon not found'
+
             return render_template('search.html.j2', **kwargs)
 
     return render_template('search.html.j2', **kwargs)
