@@ -5,7 +5,7 @@ from werkzeug.security import check_password_hash
 from ..forms import RegisterForm, LoginForm
 from ..models import User
 
-auth = Blueprint('auth', __name__, template_folder='auth_templates')
+auth = Blueprint(name='auth', import_name=__name__, template_folder='auth_templates')
 
 @auth.get('/register')
 @auth.post('/register')
