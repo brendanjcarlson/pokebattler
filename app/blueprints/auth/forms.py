@@ -27,9 +27,9 @@ class RegisterForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = StringField(label='Username', 
+    identity = StringField(label="Email or username", 
                            validators=[InputRequired()], 
-                           render_kw={"placeholder": "Username"})
+                           render_kw={"placeholder": "Email or username"})
 
     password = PasswordField(label='Password', 
                              validators=[InputRequired()], 

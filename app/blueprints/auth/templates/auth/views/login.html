@@ -1,18 +1,44 @@
-{% extends 'layout.html.j2' %}
+{% extends 'base/layout.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('auth.static', filename='styles/auth.css') }}">
+{% endblock styles %}
 
 {% block content %}
 
-<form class='form' method="POST">
-    <h2 class="form-title">Login</h2>
-    {{ form.hidden_tag() }}
-    <div class="form-inputs">
-        {{ form.username(class='form-input') }}
-        {{ form.password(class='form-input') }}
-    </div>
-    <div class="form-btns">
-        {{ form.submit(class='btn btn-blue', value='Login') }}
-    </div>
-    <p>New to Pokemans App?<a href="{{ url_for('auth.register') }}">Register</a></p>
-</form>
+<main class="auth">
+    <h1 class="auth__title">Login</h1>
+    <form class='auth__form' method="POST">
+        {{ form.hidden_tag() }}
+        <div class="auth__form__control">
+            {{ form.identity.label(class='auth__form__control__label') }}
+            {{ form.identity(class='auth__form__control__input') }}
+            {% if form.identity.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.identity.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__control">
+            {{ form.password.label(class='auth__form__control__label') }}
+            {{ form.password(class='auth__form__control__input') }}
+            {% if form.password.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__submit">
+            {{ form.submit(class='auth__form__submit__btn auth__form__submit__btn--blue') }}
+        </div>
+    </form>
+    <p class="auth__cta">New to PokeBattler? <a class="auth__cta__link" href="{{ url_for('auth.view_register') }}">Register</a></p>
+</main>
 
 {% endblock %}

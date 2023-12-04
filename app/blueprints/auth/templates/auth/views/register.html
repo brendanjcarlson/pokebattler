@@ -1,21 +1,66 @@
-{% extends 'layout.html.j2' %}
+{% extends 'base/layout.html' %}
 
+{% block title %}Register{% endblock %}
+
+{% block styles %}
+<link rel="stylesheet" href="{{ url_for('auth.static', filename='styles/auth.css') }}">
+{% endblock styles %}
 
 {% block content %}
 
-<form class='form' method="POST">
-    <h2 class="form-title">Register</h2>
-    {{ form.hidden_tag() }}
-    <div class="form-inputs">
-        {{ form.username(class='form-input') }}
-        {{ form.email(class='form-input') }}
-        {{ form.password(class='form-input') }}
-        {{ form.confirm_password(class='form-input') }}
-    </div>
-    <div class="form-btns">
-        {{ form.submit(class='btn btn-yellow') }}
-    </div>
-    <p>Already have an account?<a href="{{ url_for('auth.login') }}">Login</a></p>
-</form>
+<main class="auth">
+    <h1 class="auth__title">Register</h1>
+    <form class='auth__form' method="POST">
+        {{ form.hidden_tag() }}
+        <div class="auth__form__control">
+            {{ form.email.label(class='auth__form__control__label') }}
+            {{ form.email(class='auth__form__control__input') }}
+            {% if form.email.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.email.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__control">
+            {{ form.username.label(class='auth__form__control__label') }}
+            {{ form.username(class='auth__form__control__input') }}
+            {% if form.username.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.username.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__control">
+            {{ form.password.label(class='auth__form__control__label') }}
+            {{ form.password(class='auth__form__control__input') }}
+            {% if form.password.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.password.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__control">
+            {{ form.confirm_password.label(class='auth__form__control__label') }}
+            {{ form.confirm_password(class='auth__form__control__input') }}
+            {% if form.confirm_password.errors %}
+            <ul class="auth__form__control__errors">
+                {% for error in form.confirm_password.errors %}
+                <li>{{ error }}</li>
+                {% endfor %}
+            </ul>
+            {% endif %}
+        </div>
+        <div class="auth__form__submit">
+            {{ form.submit(class='auth__form__submit__btn auth__form__submit__btn--red') }}
+        </div>
+    </form>
+    <p class="auth__cta">Already have an account? <a class="auth__cta__link" href="{{ url_for('auth.view_login') }}">Login</a></p>
+</main>
 
 {% endblock %}

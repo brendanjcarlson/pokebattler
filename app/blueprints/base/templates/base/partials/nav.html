@@ -1,8 +1,26 @@
-<nav class="nav container">
-    <div>
+<nav class="navigation">
+    <a href="{{ url_for('site.view_index') }}" class="navigation__home">
+        <img src="{{ url_for('base.static', filename='images/pokeball.png') }}" alt="" class="navigation__home__img" />
+        <span class="navigation__home__text">PokeBattler</span>
+    </a>
+    <ul role="list" class="navigation__auth">
+        {% if current_user.is_authenticated %}
+        <li class="navigation__auth__item">
+            <a href="{{ url_for('auth.handle_logout') }}" class="navigation__auth__item__link navigation__auth__item__link--yellow">Logout</a>
+        </li>
+        {% else %}
+        <li class="navigation__auth__item">
+            <a href="{{ url_for('auth.view_login') }}" class="navigation__auth__item__link navigation__auth__item__link--blue">Login</a>
+        </li>
+        <li class="navigation__auth__item">
+            <a href="{{ url_for('auth.view_register') }}" class="navigation__auth__item__link navigation__auth__item__link--red">Register</a>
+        </li>
+        {% endif %}
+    </ul>
+    {# <div>
         <a class='nav-link-animated' href="{{ url_for('home.landing') }}">
             <img src="{{ url_for('static', filename='pokeball.png') }}" alt="">
-            <h1>PokeBattle</h1>
+            PokeBattler
         </a>
         {% if current_user.is_authenticated %}
         <form class="header-form" method="POST" action="{{ url_for('poke.search') }}">
@@ -17,14 +35,6 @@
         <a class='btn btn-blue' href="{{ url_for('user.team', username=current_user.username) }}">My team</a>
         <a class='btn btn-red' href="{{ url_for('poke.find_battle') }}">Find Battle!</a>
         {% endif %}
-    </div>
-    <div>
-        {% if not current_user.is_authenticated %}
-        <a class='btn btn-yellow' href="{{ url_for('auth.register') }}">Register</a>
-        <a class='btn btn-blue' href="{{ url_for('auth.login') }}">Login</a>
-        {% else %}
+    </div> #}
 
-        <a class='btn btn-blue' href="{{ url_for('auth.logout') }}">Logout</a>
-        {% endif %}
-    </div>
 </nav>

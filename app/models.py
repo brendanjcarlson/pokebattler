@@ -29,7 +29,7 @@ class User(db.Model, UserMixin):
     wins = db.Column(db.Integer, default=0)
     losses = db.Column(db.Integer, default=0)
 
-    caught = db.relationship('Pokemon', secondary='pokemons_to_users', backref=db.backref('caught', lazy='dynamic'), lazy='dynamic')
+    caught = db.relationship('Pokemon', secondary='pokemons_to_users', backref=db.backref('caught'), lazy='dynamic')
 
     def __init__(self, username, email, password):
         self.username = username
@@ -103,7 +103,7 @@ class Pokemon(db.Model):
     height = db.Column(db.Integer)
     weight = db.Column(db.Integer)
 
-    sprites = db.relationship('PokemonSprites', backref=db.backref('pokemon', lazy='dynamic'), lazy='dynamic')
+    sprites = db.relationship('PokemonSprites', backref=db.backref('pokemon'), lazy='dynamic')
 
     def __init__(self, game_id, name, base_hp, base_atk, base_def, base_spd, base_exp, height, weight):
         self.game_id = game_id

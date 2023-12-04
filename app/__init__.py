@@ -10,11 +10,10 @@ app.config.from_object('config.Config')
 db.init_app(app)
 migrate = Migrate(app, db)
 
-login = LoginManager()
-login.init_app(app)
-login.login_view = 'auth.login'
+login_manager = LoginManager(app)
+login_manager.login_view = 'auth.view_login'
 
-@login.user_loader
+@login_manager.user_loader
 def load_user(user_id):
     return User.query.filter_by(id=user_id).first()
 
@@ -24,3 +23,6 @@ app.register_blueprint(base)
 
 from app.blueprints.site import site
 app.register_blueprint(site)
+
+from app.blueprints.auth import auth
+app.register_blueprint(auth)

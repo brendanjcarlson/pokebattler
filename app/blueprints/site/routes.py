@@ -1,4 +1,5 @@
 from flask import render_template
+from flask_login import current_user
 from app.blueprints.site import site
 
 # @home.get('/')
@@ -14,5 +15,5 @@ from app.blueprints.site import site
 #     return render_template('landing.html.j2', **kwargs)
 
 @site.get("/")
-def index():
-    return render_template("site/index.html")
+def view_index():
+    return render_template("site/views/index.html", current_user=current_user)
